@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% comment %} will list the latest three posts previews {% endcomment %}
+
+{% block title %}
+My blog 
+{% endblock title %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'blog/index.css' %}">
+{% endblock css_files %}
+
+{% block content %}
+
+<section id="welcome">
+    <header>
+        <img src="{% static "blog/images/andip.jpg" %}" alt="Andip - The author of this blog">
+        <h2>Andip's Blog</h2>
+    </header>
+    <p>Hey, This is my sh***y life... And BTW... I love it</p>
+</section>
+
+<section id="latest-posts">
+    <h2>Recent sh** of my life</h2>
+
+    <ul>
+        {% for post in posts %}
+        {% include "blog/includes/post-preview.html" %}
+        {% comment %} post-preview.html will have access to the context data - post {% endcomment %}
+        {% endfor %}
+    </ul>
+</section>
+
+<section id="about">
+    <h2>What I do</h2>
+    <p>I love improving myslef. I love to exercise. I love to talk about life, philosophy, emotions, perceptions, ideas, and everything else.</p>
+    <p>I strive to become the best version of myself.</p>
+</section>
+{% endblock content %}

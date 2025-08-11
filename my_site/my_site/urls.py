@@ -19,6 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/', include('blog.urls')),  # http://localhost:8000/
-    # try '' as path
+    path('', include('blog.urls')),  # http://localhost:8000/
+    # '/' as path doesn't work, it should be an empty string
 ]
