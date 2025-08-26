@@ -1,6 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
+from .forms import CommentForm
+from django.views import View
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 
@@ -34,15 +38,35 @@ class AllPostsView(ListView):
 #     })
 
 
-class SinglePostView(DetailView):
-    template_name = "blog/post-detail.html"
-    model = Post
-    context_object_name = "post"
+class SinglePostView(View):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["post_tags"] = self.object.tag.all()
-        return context
+    def get(self,request, slug):
+        target_post = Post.objects.get(slug=slug)
+        context = {
+            'post' : target_post,
+            'post_tags': target_post.tag.all(),
+            'comment_form': CommentForm(),
+            'comments': target_post.comments.all().order_by("-id")
+        }
+        return render(request, 'blog/post-detail.html', context)
+
+    def post(self,request, slug):
+        comment_form = CommentForm(request.POST)
+        target_post = Post.objects.get(slug=slug)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.post = target_post
+            comment.save()
+            return HttpResponseRedirect(reverse("post-detail-page", args=[slug])) 
+        # This will send a get request on this URL, so we dont need to pass context here, instead it will get from render in get()
+
+        context = {
+            'post' : target_post,
+            'post_tags': target_post.tag.all(),
+            'comment_form': comment_form,
+            'comments': target_post.comments.all().order_by("-id")
+        }
+        return render(request, 'blog/post-detail.html', context) 
 
 # def post_detail(request, post_slug):
 #     # target_post = Post.objects.get(slug=post_slug)
