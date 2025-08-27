@@ -30,6 +30,9 @@ class Post(models.Model):
         Author, on_delete=models.SET_NULL, null=True, related_name="posts"
     )
     tag = models.ManyToManyField(Tag, related_name="posts")
+
+    def __str__(self):
+        return self.title
     
     
 class Comment(models.Model):
