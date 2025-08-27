@@ -108,11 +108,13 @@ class ReadLaterView(View):
         if stored_posts is None:
             stored_posts = []
         post_id = int(request.POST["post_id"])
-        
+
         if post_id not in stored_posts:
             stored_posts.append(post_id)
         else:
             stored_posts.remove(post_id)
 
         request.session["stored_posts"] = stored_posts
-        return HttpResponseRedirect("/")
+        # return HttpResponseRedirect("/")
+        slug = Post.objects.get(id=post_id).slug
+        return HttpResponseRedirect(reverse("post-detail-page", args=[slug]))
