@@ -93,5 +93,6 @@ DATABASES = {
  ```
  - remove + static() from urls.py
 24. Reupload updated codebase zip
+25. Django server will now not serve the static files as it is ineffiecient and this would instead be done by nginx
 
 <!-- Static files can also be served by a whole other server - AWS S3 for example -->
