@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from os import getenv
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mg%lfid7_(k=di9b%wgoo68rm@^9_u*&a1o1$-lz^#bpeqqi-4'
+SECRET_KEY = getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = getenv("IS_DEVELOPMENT", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = getenv("APP_HOST", "localhost").split(",")
 
 
 # Application definition
@@ -117,7 +120,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+
+
+# Both ✅ — the folder (*_ROOT) and the URL prefix (*_URL) must not be the same.
+# (MUST NOT BE SAME AS USER UPLOADS SO NOONE CAN UPLOAD MALICIOUS FILES THAT WILL BE SERVED TO OTHER USERS)
+STATIC_ROOT = BASE_DIR / "staticfiles"   # folder to collect all static files
+STATIC_URL = 'static/'  # url to servce static files on deployment
+
+
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
@@ -126,6 +136,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 MEDIA_ROOT = BASE_DIR / 'uploads'
 MEDIA_URL = '/files/'
