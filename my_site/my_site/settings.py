@@ -29,7 +29,9 @@ SECRET_KEY = getenv("SECRET_KEY")
 DEBUG = getenv("IS_DEVELOPMENT", True)
 
 ALLOWED_HOSTS = [
-    getenv("APP_HOST","localhost")
+    getenv("APP_HOST", "localhost"),
+    "127.0.0.1",
+    "localhost",
 ]
 
 
@@ -131,7 +133,7 @@ USE_TZ = True
 # Both ✅ — the folder (*_ROOT) and the URL prefix (*_URL) must not be the same.
 # (MUST NOT BE SAME AS USER UPLOADS SO NOONE CAN UPLOAD MALICIOUS FILES THAT WILL BE SERVED TO OTHER USERS)
 STATIC_ROOT = BASE_DIR / "staticfiles"   # folder to collect all static files
-STATIC_URL = 'static/'  # url to servce static files on deployment
+STATIC_URL = '/static/'  # url to servce static files on deployment
 
 
 STATICFILES_DIRS = [

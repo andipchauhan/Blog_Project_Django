@@ -82,5 +82,15 @@ DATABASES = {
 20. python manage.py runserver
 21. Upload and deploy updated code on beanstalk(omit db.sqlite3 this time)
 22. Edit inbound rules for RDS security group in VPC and open to everyone(as password protection is there)
-
+    - Reupload updated codebase zip
 <!-- Serving static files separately -->
+23. In .ebextensions add file static-files.config so beanstalk will change configuration of nginx server to serve static files differently
+ ```
+ option_settings:
+  aws:elasticbeanstalk:environment:proxy:staticfiles:
+    /static: staticfiles
+    /files: uploads
+ ```
+ - remove + static() from urls.py
+24. Reupload updated codebase zip
+
