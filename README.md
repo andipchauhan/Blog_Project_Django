@@ -94,3 +94,4 @@ DATABASES = {
  - remove + static() from urls.py
 24. Reupload updated codebase zip
 
+<!-- Static files can also be served by a whole other server - AWS S3 for example -->
